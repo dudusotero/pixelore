@@ -1,6 +1,6 @@
 {
   "name": "@pixelore/tailwind-preset",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Tailwind CSS preset for pixelore — exposes the 8-bit theme tokens as utilities. Compatible with Tailwind v3 (preset.cjs/.js) and Tailwind v4 (preset.css).",
   "license": "MIT",
   "author": "Eduardo Sotero",
