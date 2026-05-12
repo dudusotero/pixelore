@@ -1,0 +1,16 @@
+@import "tailwindcss";
+@import "@pixelore/react/styles.css";
+
+@source "../../../packages/react/src/**/*.{ts,tsx}";
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--po-color-bg);
+  /* lock scroll — the game is a fixed viewport experience */
+  overflow: hidden;
+}

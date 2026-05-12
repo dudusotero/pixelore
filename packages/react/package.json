@@ -1,0 +1,127 @@
+{
+  "name": "@pixelore/react",
+  "version": "0.1.0",
+  "description": "8-bit aesthetic React components — accessible, animated, pixel-perfect.",
+  "license": "MIT",
+  "author": "Eduardo Sotero",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dudusotero/pixelore.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://pixelore.vercel.app",
+  "bugs": "https://github.com/dudusotero/pixelore/issues",
+  "keywords": [
+    "react",
+    "design-system",
+    "8-bit",
+    "pixel-art",
+    "retro",
+    "ui",
+    "components",
+    "accessible",
+    "tailwindcss",
+    "motion",
+    "radix"
+  ],
+  "type": "module",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "require": "./src/index.ts"
+    },
+    "./styles.css": "./src/styles/index.css",
+    "./tokens": {
+      "types": "./src/tokens/index.ts",
+      "import": "./src/tokens/index.ts"
+    },
+    "./hooks": {
+      "types": "./src/hooks/index.ts",
+      "import": "./src/hooks/index.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src/styles",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js",
+        "require": "./dist/index.cjs"
+      },
+      "./styles.css": "./src/styles/index.css",
+      "./tokens": {
+        "types": "./dist/tokens.d.ts",
+        "import": "./dist/tokens.js",
+        "require": "./dist/tokens.cjs"
+      },
+      "./hooks": {
+        "types": "./dist/hooks.d.ts",
+        "import": "./dist/hooks.js",
+        "require": "./dist/hooks.cjs"
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint src --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@radix-ui/react-accessible-icon": "^1.1.8",
+    "@radix-ui/react-avatar": "^1.1.11",
+    "@radix-ui/react-checkbox": "^1.3.3",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-progress": "^1.1.8",
+    "@radix-ui/react-radio-group": "^1.3.8",
+    "@radix-ui/react-separator": "^1.1.8",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-switch": "^1.2.6",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0"
+  },
+  "peerDependencies": {
+    "motion": "^12.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.6",
+    "jsdom": "^29.1.1",
+    "motion": "^12.38.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "tailwindcss": "^4.3.0",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.6"
+  }
+}

@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@import "@pixelore/react/styles.css";
+
+/* Belt-and-braces: scan the library source for class names. Symlinked
+   workspace packages live under node_modules in pnpm, which Tailwind v4
+   excludes by default. */
+@source "../../../packages/react/src/**/*.{ts,tsx}";
+
+/* The docs site uses the same theme tokens as the design system; importing
+   @pixelore/react/styles.css above brings them in. Anything below is
+   docs-specific. */
+
+:root {
+  --docs-sidebar-width: 280px;
+  --docs-content-max-width: 880px;
+  /* Actual sticky-header height. */
+  --docs-header-height: 74px;
+  /* Vertical clearance for scroll-into-view targets: header height plus the
+     docs layout's `py-10` top padding so navigating to a new page lands at
+     scrollY=0 (full natural top padding visible). */
+  --docs-scroll-offset: 124px;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Critical: without this, Next.js App Router's focus-and-scroll on Link
+     navigation aligns the new page's <article> to viewport y=0, where the
+     sticky header overlays it AND the article loses its natural top padding.
+     scroll-padding-top tells the browser to leave this much space at the top
+     of the scroll container for ANY scroll-into-view call (router navigation,
+     hash anchors, focus()). Sized to header + layout padding so the page
+     lands flush at scrollY=0. */
+  scroll-padding-top: var(--docs-scroll-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* MDX-rendered code blocks use rehype-pretty-code. Style the output so it
+   matches the 8-bit aesthetic. */
+[data-rehype-pretty-code-figure] pre {
+  background-color: var(--po-color-bg-elevated);
+  border: 2px solid var(--po-color-border);
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+[data-rehype-pretty-code-figure] code {
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  counter-reset: line;
+}
+
+[data-line] {
+  display: block;
+  border-left: 2px solid transparent;
+  padding-left: 0.5rem;
+}
+
+[data-highlighted-line] {
+  background-color: rgba(255, 217, 61, 0.1);
+  border-left-color: var(--po-color-accent);
+}
+
+/* Animated gradient background on the hero. */
+.po-hero-noise {
+  position: relative;
+  isolation: isolate;
+}
+
+.po-hero-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(255, 45, 108, 0.15) 0, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(0, 229, 255, 0.12) 0, transparent 50%);
+  background-size: 600px 600px;
+}

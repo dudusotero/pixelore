@@ -1,0 +1,38 @@
+/* pixelore Tailwind v4 theme preset.
+   Usage:
+       @import "tailwindcss";
+       @import "@pixelore/tailwind-preset/css";
+*/
+
+@theme {
+  --color-po-bg: #0d0f1c;
+  --color-po-bg-elevated: #171a2e;
+  --color-po-surface: #1f2340;
+  --color-po-fg: #f4f4f8;
+  --color-po-fg-muted: #9ea1c1;
+  --color-po-border: #2a2f55;
+  --color-po-primary: #ff2d6c;
+  --color-po-primary-fg: #ffffff;
+  --color-po-primary-strong: #cc0d4d;
+  --color-po-secondary: #00e5ff;
+  --color-po-secondary-fg: #0d0f1c;
+  --color-po-secondary-strong: #00b8cc;
+  --color-po-accent: #ffd93d;
+  --color-po-accent-fg: #0d0f1c;
+  --color-po-success: #00ff88;
+  --color-po-success-fg: #0d0f1c;
+  --color-po-warning: #ff8c00;
+  --color-po-warning-fg: #0d0f1c;
+  --color-po-danger: #ff3838;
+  --color-po-danger-fg: #ffffff;
+
+  --font-display: "Press Start 2P", "VT323", monospace;
+  --font-body: "VT323", "Press Start 2P", monospace;
+  --font-mono: "VT323", ui-monospace, monospace;
+
+  --radius-pixel: 0;
+
+  --shadow-pixel-sm: 2px 2px 0 0 rgba(0, 0, 0, 0.6);
+  --shadow-pixel: 4px 4px 0 0 rgba(0, 0, 0, 0.6);
+  --shadow-pixel-lg: 6px 6px 0 0 rgba(0, 0, 0, 0.6);
+}

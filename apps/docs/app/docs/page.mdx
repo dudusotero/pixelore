@@ -1,0 +1,123 @@
+export const metadata = {
+  title: 'Introduction',
+  description: 'Get started with Pixelore UI — the 8-bit React design system for browser games.',
+}
+
+# Introduction
+
+**Pixelore UI** is a React design system for **HTML / browser games**. It ships accessible, animated, pixel-perfect components built on top of Radix UI primitives, Tailwind CSS v4, and Motion.
+
+It works as a drop-in component library in any modern React framework: **Next.js (App Router)**, **Vite**, **Remix**, **Astro islands**, and so on.
+
+## Who is this for?
+
+If you're building a React app that needs **personality + accessibility**, you're the target audience. Specifically:
+
+- **HTML game developers** — turn-based RPGs, roguelikes, idle games, jam projects. The signature `HeartBar`, `Progress` bars, `Dialog` overlays, and `Badge` tags are battle-tested in the live RPG demo at `apps/rpg-demo`.
+- **Creative tool builders** — pixel art editors, level editors, music trackers. Retro aesthetic, modern a11y.
+- **Side-project tinkerers** — portfolios, jam tools, custom dashboards where "flat shadcn" feels wrong.
+
+It is **not** the right pick for: enterprise SaaS, financial dashboards, or anywhere "professional and conservative" is the brief.
+
+## Install
+
+```bash
+pnpm add @pixelore/react motion
+# or
+npm install @pixelore/react motion
+```
+
+`react`, `react-dom`, and `motion` are peer dependencies — provide them yourself.
+
+## Quick start
+
+Import the stylesheet **once** at the root of your app, then compose components freely.
+
+### Next.js (App Router)
+
+```tsx
+// app/layout.tsx
+import '@pixelore/react/styles.css'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  )
+}
+```
+
+### Vite + React
+
+```tsx
+// src/main.tsx
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import '@pixelore/react/styles.css'
+import { App } from './App'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+```
+
+### Remix
+
+```tsx
+// app/root.tsx
+import styles from '@pixelore/react/styles.css?url'
+
+export const links = () => [{ rel: 'stylesheet', href: styles }]
+```
+
+### Astro (with React island)
+
+```astro
+---
+// src/pages/index.astro
+import '@pixelore/react/styles.css'
+import { Hud } from '../components/Hud'
+---
+
+<Hud client:visible />
+```
+
+### Then start composing
+
+```tsx
+import { Button, Card, HeartBar } from '@pixelore/react'
+
+export function Hud() {
+  return (
+    <Card>
+      <HeartBar value={2} max={3} />
+      <Button variant="primary">Start Game</Button>
+    </Card>
+  )
+}
+```
+
+## Design principles
+
+1. **Game-ready, not generic.** HeartBar, HP/MP progress, badge tags, modal dialogs — the patterns a game UI actually needs.
+2. **Pixel-perfect.** No anti-aliased borders. No subpixel rendering tricks. Box-shadow borders keep edges crisp at any zoom.
+3. **Accessible.** Every interactive primitive is built on a Radix UI component — keyboard support, ARIA, focus management, screen-reader labels come for free.
+4. **Motion-aware.** Animations are powered by Motion, and every animated component checks `prefers-reduced-motion` at the JS *and* CSS layer. Translates swap to opacity fades — no vestibular cue.
+5. **Themable.** CSS variables drive every token. Override `--po-color-primary` once and the whole system follows.
+
+## What's in the box?
+
+- **18 components**: Button, Card, Input, Textarea, Label, Badge, Alert, Avatar, Checkbox, Switch, RadioGroup, Progress, Skeleton, Separator, Tabs, Tooltip, Dialog, and the signature **HeartBar** for HP / lives.
+- **Design tokens** exported as both CSS variables (`--po-*`) and TypeScript exports (`tokens.colors.primary` etc.).
+- **A Tailwind preset** (v3 + v4 compatible) for projects that want just the tokens.
+- **A live RPG demo** at `apps/rpg-demo` — a turn-based game built entirely with the library.
+
+## What's next?
+
+- Read about [accessibility](/docs/accessibility) for the patterns every component follows
+- Read about [motion](/docs/motion) for how reduced motion is handled
+- Browse the [design tokens](/docs/tokens) to see every colour, font, shadow, and spacing value
+- Jump to the [Button](/docs/components/button) component to see the full anatomy of a Pixelore UI component

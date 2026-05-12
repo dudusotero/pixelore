@@ -1,0 +1,85 @@
+export const metadata = {
+  title: 'Motion & reduced motion',
+  description: 'How Pixelore UI uses Motion and respects prefers-reduced-motion across the system.',
+}
+
+# Motion & reduced motion
+
+Animation is a first-class citizen in Pixelore UI — buttons press down, hearts pop in, dialogs zoom open. But movement that helps some users harms others, so every animation in the system has a reduced-motion equivalent.
+
+## The two-layer strategy
+
+We respect `prefers-reduced-motion` at **both** the CSS layer and the JavaScript layer.
+
+### Layer 1 — CSS
+
+The global stylesheet caps CSS animations and transitions to ~0ms for users who request reduced motion:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```
+
+This is the same pattern used by major systems like Tailwind UI and the BBC's GEL — a safety net that catches everything CSS-based.
+
+### Layer 2 — JavaScript
+
+CSS-only animations can't be conditionally *swapped* for a different animation. But Motion animations can. Every animated Pixelore UI component calls `useReducedMotion()` and chooses between two variants:
+
+```tsx
+import { useReducedMotion } from "@pixelore/react"
+import { motion } from "motion/react"
+
+function PressableButton() {
+  const reduced = useReducedMotion()
+
+  return (
+    <motion.button
+      whileHover={reduced ? { opacity: 0.92 } : { x: -1, y: -1 }}
+      whileTap={reduced ? { opacity: 0.85 } : { x: 2, y: 2 }}
+    >
+      Press
+    </motion.button>
+  )
+}
+```
+
+The full-motion variant uses **translate**. The reduced variant uses **opacity**. The component still gives feedback; it just stops moving.
+
+This pattern follows [WCAG 2.3.3 (Animation from Interactions, Level AAA)](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html) — any non-essential motion can be disabled by user setting.
+
+## What about decorative animation?
+
+The optional CRT scanline overlay (`.po-scanlines`) is purely decorative. We disable its background pattern entirely under `prefers-reduced-motion`, because static scanlines plus head movement could still trigger discomfort.
+
+## Hooks you can use
+
+```tsx
+import { useReducedMotion, usePressAnimation } from "@pixelore/react"
+```
+
+- `useReducedMotion()` — returns `true` when the user has opted in to reduced motion.
+- `usePressAnimation()` — returns a ready-to-use Motion `Variants` object with `idle`, `hover`, and `pressed` states. The reduced variant uses opacity; the full variant uses translate.
+
+## Building your own animated components
+
+When extending Pixelore UI:
+
+1. **Default to no animation**, then opt in when you need feedback.
+2. **Never animate `transform` or `top/left/right/bottom`** as the *only* feedback. Always pair them with a non-motion cue (color change, opacity).
+3. **Avoid parallax or scroll-tied motion** entirely — they're the worst offenders for vestibular triggers.
+4. **Test it.** macOS: System Settings → Accessibility → Display → Reduce Motion. Windows: Settings → Accessibility → Visual Effects → Animation Effects.
+
+## Why this matters
+
+About 35% of adults over 40 experience vestibular symptoms triggered by motion. For some, watching a button slide can cause nausea, dizziness, or migraine. Reduced-motion support isn't a polish item — it's the difference between "this site is fun" and "this site is unusable".
+
+8-bit aesthetics already give us license to use *stepped*, snappy animations rather than long graceful eases. Lean into that.

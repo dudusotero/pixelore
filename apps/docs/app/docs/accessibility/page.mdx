@@ -1,0 +1,65 @@
+export const metadata = {
+  title: 'Accessibility',
+  description: 'How Pixelore UI meets WCAG 2.2 AA targets and the patterns every component follows.',
+}
+
+# Accessibility
+
+Pixelore UI targets **WCAG 2.2 AA**. The retro aesthetic does not get to compromise that.
+
+## Foundations
+
+Every interactive primitive is built on either a [Radix UI](https://www.radix-ui.com) component or implements the matching [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/) pattern from scratch. That means you get, for free:
+
+- **Keyboard navigation** — `Tab`, `Shift+Tab`, `Enter`, `Space`, arrow keys, `Escape`, type-ahead. All the keys a screen-reader or keyboard user would expect.
+- **Focus management** — focus trapping inside `Dialog`, focus restoration on close, roving tabindex inside `Tabs` and `RadioGroup`.
+- **ARIA roles and state** — `aria-checked`, `aria-pressed`, `aria-expanded`, `aria-live`, `role="alert"`, and so on, applied automatically by the underlying primitive.
+
+## Focus styles
+
+We use `:focus-visible` so focus rings only show for keyboard users:
+
+```css
+:focus-visible {
+  outline: 2px solid var(--po-color-accent);
+  outline-offset: 2px;
+}
+```
+
+The accent yellow is chosen for contrast against every background in the system — at least 4.5:1 on `--po-color-bg`, 3:1 on every other surface.
+
+## Color contrast
+
+Every text/background pair in the default theme passes WCAG AA contrast (4.5:1 for normal text, 3:1 for large text). You can audit the tokens with any contrast checker — the colors are listed in [the tokens reference](/docs).
+
+When you override the theme, run your overrides through a contrast checker too.
+
+## Screen readers
+
+Components that display state (e.g. `HeartBar`, `Progress`) expose that state to assistive tech:
+
+- `HeartBar` renders as `role="progressbar"` with `aria-valuenow`, `aria-valuemax`, `aria-valuemin`, and an `aria-label`. Screen readers announce "Hearts: 2 of 3" instead of asking the user to count pixels.
+- `Alert` uses `role="alert"` with `aria-live="polite"` for info/success, `assertive` for warning/danger — matching the urgency.
+
+## Reduced motion
+
+See [Motion & reduced motion](/docs/motion) — it's important enough to get its own page.
+
+## Reduced transparency / high contrast
+
+The default theme is a dark theme by design — the retro aesthetic relies on the contrast between vivid foreground colors and a near-black background. If you need a light or high-contrast theme, override the CSS variables in a media query:
+
+```css
+@media (prefers-contrast: more) {
+  :root {
+    --po-color-fg: #ffffff;
+    --po-color-border: #ffffff;
+  }
+}
+```
+
+## Forms
+
+- `Input` and `Textarea` accept `aria-invalid` and apply red borders when set.
+- `Label` is a Radix `Label` — it correctly associates with the input it labels.
+- Validation messages should use `aria-describedby` to link to a sibling element with `role="status"` (for live messages) or just plain text (for static help text).

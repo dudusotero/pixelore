@@ -1,0 +1,55 @@
+{
+  "name": "@pixelore/tailwind-preset",
+  "version": "0.1.0",
+  "description": "Tailwind CSS preset for pixelore — exposes the 8-bit theme tokens as utilities. Compatible with Tailwind v3 (preset.cjs/.js) and Tailwind v4 (preset.css).",
+  "license": "MIT",
+  "author": "Eduardo Sotero",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dudusotero/pixelore.git",
+    "directory": "packages/tailwind-preset"
+  },
+  "homepage": "https://pixelore.vercel.app",
+  "bugs": "https://github.com/dudusotero/pixelore/issues",
+  "keywords": [
+    "tailwindcss",
+    "tailwind-preset",
+    "design-system",
+    "8-bit",
+    "pixel-art",
+    "retro",
+    "theme"
+  ],
+  "type": "module",
+  "main": "./dist/preset.cjs",
+  "module": "./dist/preset.js",
+  "types": "./dist/preset.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/preset.d.ts",
+      "import": "./dist/preset.js",
+      "require": "./dist/preset.cjs"
+    },
+    "./css": "./dist/preset.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup && cp src/preset.css dist/preset.css",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.3.0",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3"
+  },
+  "peerDependencies": {
+    "tailwindcss": ">=3.4.0"
+  }
+}

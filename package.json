@@ -1,0 +1,50 @@
+{
+  "name": "pixelore",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An 8-bit aesthetic React design system. Accessible. Animated. Pixel-perfect.",
+  "license": "MIT",
+  "author": "Eduardo Sotero <eduardoliberatosotero@gmail.com | @dudusotero>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dudusotero/pixelore.git"
+  },
+  "homepage": "https://pixelore.vercel.app",
+  "keywords": [
+    "react",
+    "design-system",
+    "8-bit",
+    "pixel-art",
+    "retro",
+    "ui",
+    "components",
+    "accessible",
+    "tailwindcss",
+    "motion"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,md,mdx,json}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,mdx,json}\" --ignore-path .gitignore",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo run build --filter=@pixelore/* && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "@types/node": "^25.7.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "turbo": "^2.9.12",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9.15.9"
+}

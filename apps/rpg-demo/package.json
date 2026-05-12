@@ -1,0 +1,30 @@
+{
+  "name": "@pixelore/rpg-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A small turn-based RPG built with the pixelore design system. Showcases the library's components in a real product context.",
+  "scripts": {
+    "dev": "vite --port 3040",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 3040",
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo node_modules/.vite"
+  },
+  "dependencies": {
+    "@pixelore/react": "workspace:*",
+    "motion": "^12.38.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.12"
+  }
+}
