@@ -36,6 +36,7 @@ export function TableOfContents() {
         level: node.tagName === 'H2' ? 2 : 3,
       })
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- headings are derived from the rendered DOM on mount; nowhere else can produce them.
     setHeadings(out)
 
     // Highlight the most-visible heading as the active one.

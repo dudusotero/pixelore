@@ -44,13 +44,15 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
 })
 
 export const AlertTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement>>(
-  function AlertTitle({ className, ...props }, ref) {
+  function AlertTitle({ className, children, ...props }, ref) {
     return (
       <h5
         ref={ref}
         className={cn('mb-1 font-display text-xs uppercase tracking-wider', className)}
         {...props}
-      />
+      >
+        {children}
+      </h5>
     )
   },
 )

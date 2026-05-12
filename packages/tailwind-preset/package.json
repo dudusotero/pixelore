@@ -41,6 +41,7 @@
   "scripts": {
     "build": "tsup && cp src/preset.css dist/preset.css",
     "dev": "tsup --watch",
+    "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist .turbo"
   },

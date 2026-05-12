@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Avatar, AvatarFallback, AvatarImage } from '@pixelore/react'
+import { Avatar, AvatarFallback } from '@pixelore/react'
 import { ComponentPreview } from '../../../_components/component-preview'
 
 export const metadata: Metadata = {

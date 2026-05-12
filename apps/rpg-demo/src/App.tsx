@@ -68,7 +68,6 @@ export function App() {
   const [settings, setSettings] = useState<Settings>(
     () => loadSettings() ?? DEFAULT_SETTINGS,
   )
-  const [hasSaveState, setHasSaveState] = useState<boolean>(() => hasSave())
   const [pendingNewGame, setPendingNewGame] = useState<PendingNewGame | null>(null)
   const [activeNpc, setActiveNpc] = useState<NpcDef | null>(null)
   // After a battle ends we route back to map (or to victory/defeat). When the
@@ -88,23 +87,22 @@ export function App() {
   }, [settings])
 
   // Persist game state during active play; clear save once the run ends.
+  // The save file is the source of truth for `hasSave()` — components read it
+  // directly at render time rather than mirroring it in component state.
   useEffect(() => {
     if (screen === 'victory' || screen === 'defeat') {
       clearSave()
-      setHasSaveState(false)
     } else if (
       screen === 'map' ||
       screen === 'battle' ||
       screen === 'inventory'
     ) {
       writeSave(state)
-      setHasSaveState(true)
     }
   }, [state, screen])
 
   const beginNewGame = useCallback((name: string, heroClass: HeroClass) => {
     clearSave()
-    setHasSaveState(false)
     setState(initialState(name, heroClass))
     setScreen('map')
   }, [])
@@ -113,13 +111,13 @@ export function App() {
     (name?: string, heroClass?: HeroClass) => {
       const safeName = name ?? 'Eddy'
       const safeClass = heroClass ?? 'warrior'
-      if (hasSaveState) {
+      if (hasSave()) {
         setPendingNewGame({ name: safeName, heroClass: safeClass })
         return
       }
       beginNewGame(safeName, safeClass)
     },
-    [hasSaveState, beginNewGame],
+    [beginNewGame],
   )
 
   const continueSave = useCallback(() => {
@@ -219,7 +217,7 @@ export function App() {
         {screen === 'title' && (
           <TitleScreen
             onStart={start}
-            hasSave={hasSaveState}
+            hasSave={hasSave()}
             onContinue={continueSave}
           />
         )}
@@ -284,8 +282,8 @@ export function App() {
             <DialogHeader>
               <DialogTitle>Overwrite saved game?</DialogTitle>
               <DialogDescription>
-                Starting a new quest will erase your existing save. This can't
-                be undone.
+                Starting a new quest will erase your existing save. This
+                can&apos;t be undone.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
