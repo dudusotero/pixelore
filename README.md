@@ -2,11 +2,11 @@
 
 > An 8-bit aesthetic React design system. Accessible. Animated. Pixel-perfect.
 
+[![npm version](https://img.shields.io/npm/v/@pixelore/react?color=ff2d6c&label=%40pixelore%2Freact)](https://www.npmjs.com/package/@pixelore/react)
+[![npm downloads](https://img.shields.io/npm/dm/@pixelore/react?color=61dafb)](https://www.npmjs.com/package/@pixelore/react)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![React](https://img.shields.io/badge/React-19-61dafb)](https://react.dev)
-[![Next.js](https://img.shields.io/badge/Next.js-16-000000)](https://nextjs.org)
-[![Tailwind v4](https://img.shields.io/badge/Tailwind-v4-38bdf8)](https://tailwindcss.com)
-[![Motion](https://img.shields.io/badge/Motion-12-ff2d6c)](https://motion.dev)
+[![Docs](https://img.shields.io/badge/docs-pixelore--ui.vercel.app-000000)](https://pixelore-ui.vercel.app)
+[![RPG demo](https://img.shields.io/badge/demo-pixelore--rpg.vercel.app-7c3aed)](https://pixelore-rpg.vercel.app)
 
 ```
 ██████╗ ██╗██╗  ██╗███████╗██╗      ██████╗ ██████╗ ███████╗  ██╗   ██╗██╗
@@ -30,8 +30,9 @@ platformer and the engineering of 2026. Components are built on top of
 If you're building a turn-based RPG, a roguelike, an idle game, a pixel-art
 tool, or anything else where "flat shadcn dashboard" is the wrong look but
 you still want WCAG 2.2 AA, this is for you. There's a complete live RPG
-demo at [`apps/rpg-demo`](./apps/rpg-demo) — battle screens, HUD, party stats,
-all wired up.
+demo at **[pixelore-rpg.vercel.app](https://pixelore-rpg.vercel.app)** (source
+in [`apps/rpg-demo`](./apps/rpg-demo)) — battle screens, HUD, party stats,
+inventory, save/load, NPC merchants, all wired up.
 
 - **18 components** including a signature **`HeartBar`** for HP / lives, plus the usual Button, Card, Input, Dialog, Tabs, Tooltip, Switch, Checkbox, RadioGroup, Progress, Alert, Avatar, Badge, Label, Separator, Skeleton, Textarea.
 - **Two distribution paths**: source CSS for any React app, or a Tailwind v3/v4 preset for projects that want to extend the tokens.
@@ -100,7 +101,7 @@ export default function App() {
 }
 ```
 
-See [the docs site](https://pixelore.vercel.app) for the full component catalogue, accessibility
+See [the docs site](https://pixelore-ui.vercel.app) for the full component catalogue, accessibility
 notes, and motion guidelines.
 
 ## Local development
@@ -146,7 +147,7 @@ pixelore targets WCAG 2.2 AA. Every interactive primitive is built on a Radix UI
 default theme passes AA across the board; the focus accent (yellow) hits 4.5:1 on every
 surface.
 
-See [the accessibility docs](https://pixelore.vercel.app/docs/accessibility) for the full pattern
+See [the accessibility docs](https://pixelore-ui.vercel.app/docs/accessibility) for the full pattern
 catalogue.
 
 ## Reduced motion
@@ -156,7 +157,7 @@ animation durations) and the JS layer (Motion animations branch on `useReducedMo
 Translates swap to opacity, scales swap to opacity — the user still gets feedback but no
 vestibular cue.
 
-See [the motion docs](https://pixelore.vercel.app/docs/motion) for the full strategy.
+See [the motion docs](https://pixelore-ui.vercel.app/docs/motion) for the full strategy.
 
 ## Contributing
 

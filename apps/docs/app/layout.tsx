@@ -4,7 +4,7 @@ import { Header } from './_components/header'
 import './globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://pixelore.vercel.app'),
+  metadataBase: new URL('https://pixelore-ui.vercel.app'),
   title: {
     default: 'Pixelore UI — 8-bit React design system',
     template: '%s · Pixelore UI',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: 'Pixelore UI — 8-bit React design system',
     description:
       'An 8-bit aesthetic React design system. Accessible. Animated. Pixel-perfect.',
-    url: 'https://pixelore.vercel.app',
+    url: 'https://pixelore-ui.vercel.app',
     siteName: 'Pixelore UI',
   },
   twitter: {

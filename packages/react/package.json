@@ -9,7 +9,7 @@
     "url": "https://github.com/dudusotero/pixelore.git",
     "directory": "packages/react"
   },
-  "homepage": "https://pixelore.vercel.app",
+  "homepage": "https://pixelore-ui.vercel.app",
   "bugs": "https://github.com/dudusotero/pixelore/issues",
   "keywords": [
     "react",

@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/dudusotero/pixelore.git"
   },
-  "homepage": "https://pixelore.vercel.app",
+  "homepage": "https://pixelore-ui.vercel.app",
   "keywords": [
     "react",
     "design-system",
