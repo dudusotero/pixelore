@@ -6,7 +6,6 @@ export type NpcId = 'merchant' | 'healer'
 export interface NpcDef {
   id: NpcId
   name: string
-  sprite: string
   position: MapPosition
   /** Short flavor line shown at the top of the dialog. */
   greeting: string
@@ -22,14 +21,12 @@ export const NPCS: NpcDef[] = [
   {
     id: 'merchant',
     name: 'Merchant Brim',
-    sprite: '🧙',
     position: { x: 7, y: 3 },
     greeting: 'Adventurer! Step closer — my wares won’t bite. Most of them.',
   },
   {
     id: 'healer',
     name: 'Sister Vael',
-    sprite: '⛪',
     position: { x: 3, y: 7 },
     greeting: 'Rest a while. The road only gets harder from here.',
   },

@@ -5,7 +5,6 @@ export type ItemId = 'potion' | 'ether' | 'hero-stone' | 'elixir'
 export interface ItemTemplate {
   id: ItemId
   name: string
-  sprite: string
   description: string
   /** What happens when the hero consumes it. */
   effect:
@@ -23,7 +22,6 @@ export const ITEMS: Record<ItemId, ItemTemplate> = {
   potion: {
     id: 'potion',
     name: 'Potion',
-    sprite: '🧪',
     description: 'Restores 30 HP. Tastes like cherry medicine.',
     effect: { kind: 'heal', amount: 30 },
     price: 15,
@@ -32,7 +30,6 @@ export const ITEMS: Record<ItemId, ItemTemplate> = {
   ether: {
     id: 'ether',
     name: 'Ether',
-    sprite: '🔮',
     description: 'Restores 8 MP. Bubbling blue mystery.',
     effect: { kind: 'restore-mp', amount: 8 },
     price: 25,
@@ -41,7 +38,6 @@ export const ITEMS: Record<ItemId, ItemTemplate> = {
   'hero-stone': {
     id: 'hero-stone',
     name: 'Hero Stone',
-    sprite: '💎',
     description: 'Adds a life to the party. Used automatically on defeat.',
     effect: { kind: 'revive', hpFraction: 0.4 },
     price: 80,
@@ -49,7 +45,6 @@ export const ITEMS: Record<ItemId, ItemTemplate> = {
   elixir: {
     id: 'elixir',
     name: 'Elixir',
-    sprite: '🍾',
     description: 'Restores HP and MP to maximum. Vanishing-rare.',
     effect: { kind: 'full-restore' },
     price: 120,
@@ -93,29 +88,31 @@ export function removeItem(inventory: Inventory, id: ItemId, qty = 1): Inventory
 
 /**
  * Apply an item's effect to the hero and return the new hero state plus a
- * description of what happened (for the battle log / toast).
+ * description of what happened (for the battle log / toast). `caps` lets
+ * callers supply equipment-derived max HP/MP so healing respects gear bonuses.
  */
 export function applyItem(
   hero: Hero,
   item: ItemTemplate,
+  caps: { maxHp: number; maxMp: number } = { maxHp: hero.maxHp, maxMp: hero.maxMp },
 ): { hero: Hero; message: string } {
   switch (item.effect.kind) {
     case 'heal': {
-      const restore = Math.min(item.effect.amount, hero.maxHp - hero.hp)
+      const restore = Math.min(item.effect.amount, caps.maxHp - hero.hp)
       return {
         hero: { ...hero, hp: hero.hp + restore },
         message: `${item.name} restores ${restore} HP.`,
       }
     }
     case 'restore-mp': {
-      const restore = Math.min(item.effect.amount, hero.maxMp - hero.mp)
+      const restore = Math.min(item.effect.amount, caps.maxMp - hero.mp)
       return {
         hero: { ...hero, mp: hero.mp + restore },
         message: `${item.name} restores ${restore} MP.`,
       }
     }
     case 'revive': {
-      const restore = Math.round(hero.maxHp * item.effect.hpFraction)
+      const restore = Math.round(caps.maxHp * item.effect.hpFraction)
       return {
         hero: { ...hero, hp: restore, lives: hero.lives + 1 },
         message: `${item.name} grants an extra life.`,
@@ -123,7 +120,7 @@ export function applyItem(
     }
     case 'full-restore': {
       return {
-        hero: { ...hero, hp: hero.maxHp, mp: hero.maxMp },
+        hero: { ...hero, hp: caps.maxHp, mp: caps.maxMp },
         message: `${item.name} fully restores HP and MP.`,
       }
     }
