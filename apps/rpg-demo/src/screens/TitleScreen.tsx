@@ -30,14 +30,13 @@ export function TitleScreen({ onStart, hasSave = false, onContinue }: TitleScree
   const trimmed = name.trim() || 'Eddy'
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-8 px-6 py-12 text-center">
+    <main className="flex flex-1 flex-col items-center justify-center gap-6 px-4 py-8 text-center sm:gap-8 sm:px-6 sm:py-12">
       <Badge variant="accent">A Pixelore UI Tale</Badge>
-      <h1 className="font-display text-4xl uppercase tracking-wider text-po-fg sm:text-6xl">
-        Pixelore
-        <br />
-        <span className="text-po-primary">Quest</span>
+      <h1 className="font-display text-3xl uppercase tracking-wider text-po-fg sm:text-4xl md:text-6xl">
+        <span className="block">Pixelore</span>
+        <span className="block text-po-primary">Quest</span>
       </h1>
-      <p className="max-w-md font-body text-xl leading-snug text-po-fg-muted">
+      <p className="max-w-md font-body text-base leading-snug text-po-fg-muted sm:text-xl">
         A tiny turn-based RPG forged out of the Pixelore UI design system. Defeat
         the Pixel Dragon — or fall trying.
       </p>

@@ -122,14 +122,14 @@ export function MapScreen({
   }, [tryMove])
 
   return (
-    <main className="flex flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-3">
+    <main className="relative flex flex-1 flex-col gap-4 px-3 py-4 pb-[12.5rem] sm:gap-6 sm:px-6 sm:py-6 lg:pb-6">
+      <header className="flex flex-wrap items-center justify-between gap-2 sm:gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Badge variant="accent">World Map</Badge>
-          <span className="font-body text-lg text-po-fg-muted">
+          <span className="font-body text-base text-po-fg-muted sm:text-lg">
             Steps: <span className="text-po-fg">{steps}</span>
           </span>
-          <span className="font-body text-lg text-po-fg-muted">
+          <span className="font-body text-base text-po-fg-muted sm:text-lg">
             Gold: <span className="text-po-accent">{hero.gold}g</span>
           </span>
         </div>
@@ -152,7 +152,7 @@ export function MapScreen({
         </div>
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1fr_280px]">
         <Card className="overflow-hidden">
           <CardHeader>
             <CardTitle>{defeatedBoss ? 'Realm Saved' : 'Hunt the Dragon'}</CardTitle>
@@ -169,26 +169,29 @@ export function MapScreen({
 
         <aside className="flex flex-col gap-4">
           <HeroStatPanel hero={hero} />
-          <Card>
-            <CardHeader>
-              <CardTitle>Lives</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <HeartBar value={hero.lives} max={hero.maxLives} label="Hero stones" />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>XP</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Progress value={hero.xp} max={hero.xpToNext} />
-              <p className="mt-2 font-body text-base text-po-fg-muted">
-                {hero.xp} / {hero.xpToNext}
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
+            <Card>
+              <CardHeader>
+                <CardTitle>Lives</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <HeartBar value={hero.lives} max={hero.maxLives} label="Hero stones" />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>XP</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Progress value={hero.xp} max={hero.xpToNext} />
+                <p className="mt-2 font-body text-base text-po-fg-muted">
+                  {hero.xp} / {hero.xpToNext}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+          {/* Desktop move pad — the mobile version lives in the sticky footer below. */}
+          <Card className="hidden lg:block">
             <CardHeader>
               <CardTitle>Move</CardTitle>
             </CardHeader>
@@ -197,6 +200,16 @@ export function MapScreen({
             </CardContent>
           </Card>
         </aside>
+      </div>
+
+      {/* Thumb-friendly fixed pad on mobile so the player can move without
+          scrolling away from the map. Falls back to the in-sidebar Card above
+          at lg+. */}
+      <div
+        className="fixed inset-x-0 bottom-0 z-30 border-t-2 border-po-border bg-po-bg/95 px-3 py-3 backdrop-blur supports-[backdrop-filter]:bg-po-bg/80 lg:hidden"
+        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 0.75rem)' }}
+      >
+        <MovementPad onMove={tryMove} />
       </div>
     </main>
   )
@@ -262,22 +275,42 @@ function MovementPad({ onMove }: { onMove: (dx: number, dy: number) => void }) {
   return (
     <div
       aria-label="Movement controls"
-      className="mx-auto grid w-40 grid-cols-3 grid-rows-3 gap-1"
+      className="mx-auto grid w-44 grid-cols-3 grid-rows-3 gap-1.5 sm:w-48"
     >
       <span />
-      <Button variant="secondary" size="sm" onClick={() => onMove(0, -1)} aria-label="Move north">
+      <Button
+        variant="secondary"
+        onClick={() => onMove(0, -1)}
+        aria-label="Move north"
+        className="h-12 min-h-12 px-0 text-lg sm:h-11 sm:min-h-11"
+      >
         ▲
       </Button>
       <span />
-      <Button variant="secondary" size="sm" onClick={() => onMove(-1, 0)} aria-label="Move west">
+      <Button
+        variant="secondary"
+        onClick={() => onMove(-1, 0)}
+        aria-label="Move west"
+        className="h-12 min-h-12 px-0 text-lg sm:h-11 sm:min-h-11"
+      >
         ◀
       </Button>
       <span />
-      <Button variant="secondary" size="sm" onClick={() => onMove(1, 0)} aria-label="Move east">
+      <Button
+        variant="secondary"
+        onClick={() => onMove(1, 0)}
+        aria-label="Move east"
+        className="h-12 min-h-12 px-0 text-lg sm:h-11 sm:min-h-11"
+      >
         ▶
       </Button>
       <span />
-      <Button variant="secondary" size="sm" onClick={() => onMove(0, 1)} aria-label="Move south">
+      <Button
+        variant="secondary"
+        onClick={() => onMove(0, 1)}
+        aria-label="Move south"
+        className="h-12 min-h-12 px-0 text-lg sm:h-11 sm:min-h-11"
+      >
         ▼
       </Button>
       <span />

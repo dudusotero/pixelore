@@ -12,14 +12,14 @@ interface EndScreenProps {
 export function EndScreen({ variant, hero, steps, onRestart, onTitle }: EndScreenProps) {
   const isVictory = variant === 'victory'
   return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-8 px-6 py-16 text-center">
+    <main className="flex flex-1 flex-col items-center justify-center gap-6 px-4 py-10 text-center sm:gap-8 sm:px-6 sm:py-16">
       <Badge variant={isVictory ? 'success' : 'danger'}>
         {isVictory ? 'The Realm is Saved' : 'Game Over'}
       </Badge>
 
       <h1
         className={
-          'font-display text-4xl uppercase tracking-wider sm:text-6xl ' +
+          'font-display text-3xl uppercase tracking-wider sm:text-4xl md:text-6xl ' +
           (isVictory ? 'text-po-success' : 'text-po-danger')
         }
       >

@@ -33,11 +33,11 @@ interface InventoryScreenProps {
  */
 export function InventoryScreen({ hero, inventory, onUse, onBack }: InventoryScreenProps) {
   return (
-    <main className="flex flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+    <main className="flex flex-1 flex-col gap-4 px-3 py-4 sm:gap-6 sm:px-6 sm:py-6">
+      <header className="flex flex-wrap items-center justify-between gap-2 sm:gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Badge variant="accent">Inventory</Badge>
-          <span className="font-body text-lg text-po-fg-muted">
+          <span className="font-body text-base text-po-fg-muted sm:text-lg">
             Gold: <span className="text-po-accent">{hero.gold}g</span>
           </span>
         </div>
@@ -151,7 +151,7 @@ function EquipmentTab({ hero }: { hero: Hero }) {
       <CardContent>
         <p className="mb-3 font-body text-base text-po-fg-muted">{profile.blurb}</p>
         <Separator className="my-3" />
-        <dl className="grid grid-cols-3 gap-3 font-body text-base">
+        <dl className="grid grid-cols-2 gap-2 font-body text-base sm:grid-cols-3 sm:gap-3">
           <Stat label="HP" value={`${hero.hp} / ${hero.maxHp}`} />
           <Stat label="MP" value={`${hero.mp} / ${hero.maxMp}`} />
           <Stat label="LVL" value={String(hero.level)} />

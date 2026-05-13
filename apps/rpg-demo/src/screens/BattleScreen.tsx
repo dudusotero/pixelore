@@ -95,31 +95,29 @@ export function BattleScreen({
   }, [finished, hero, inventory, enemy.id, onFinish])
 
   return (
-    <main className="flex flex-1 flex-col gap-4 px-4 py-6 sm:px-6">
+    <main className="flex flex-1 flex-col gap-4 px-3 py-4 sm:px-6 sm:py-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <Badge variant={enemy.isBoss ? 'danger' : 'primary'}>
           {enemy.isBoss ? 'Boss Encounter' : 'Battle'}
         </Badge>
       </header>
 
+      {/* Source order = mobile order: Enemy → HeroStat → Log → Actions.
+          On lg, grid-cols + auto-flow row gives the classic two-column layout
+          (col1: Enemy/Log, col2: HeroStat/Actions) without re-ordering DOM. */}
       <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
-        <div className="flex flex-col gap-4">
-          <EnemyPanel enemy={enemy} hitFlash={enemyHitFlash} damageEvents={latestDamage} />
-          <BattleLog events={events} />
-        </div>
-
-        <div className="flex flex-col gap-4">
-          <HeroStatPanel hero={hero} compact damageEvents={latestDamage} />
-          <ActionMenu
-            hero={hero}
-            enemy={enemy}
-            inventory={inventory}
-            menu={menu}
-            busy={busy || !!finished}
-            onMenu={setMenu}
-            onAction={submit}
-          />
-        </div>
+        <EnemyPanel enemy={enemy} hitFlash={enemyHitFlash} damageEvents={latestDamage} />
+        <HeroStatPanel hero={hero} compact damageEvents={latestDamage} />
+        <BattleLog events={events} />
+        <ActionMenu
+          hero={hero}
+          enemy={enemy}
+          inventory={inventory}
+          menu={menu}
+          busy={busy || !!finished}
+          onMenu={setMenu}
+          onAction={submit}
+        />
       </div>
 
       {finished && (
