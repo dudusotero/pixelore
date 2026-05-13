@@ -45,7 +45,8 @@
     "./hooks": {
       "types": "./src/hooks/index.ts",
       "import": "./src/hooks/index.ts"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
@@ -74,7 +75,8 @@
         "types": "./dist/hooks.d.ts",
         "import": "./dist/hooks.js",
         "require": "./dist/hooks.cjs"
-      }
+      },
+      "./package.json": "./package.json"
     }
   },
   "scripts": {

@@ -2,75 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
-interface NavItem {
-  href: string
-  label: string
-}
-
-interface NavGroup {
-  title: string
-  items: NavItem[]
-}
-
-const groups: NavGroup[] = [
-  {
-    title: 'Getting Started',
-    items: [
-      { href: '/docs', label: 'Introduction' },
-      { href: '/docs/accessibility', label: 'Accessibility' },
-      { href: '/docs/motion', label: 'Motion & reduced motion' },
-      { href: '/docs/tokens', label: 'Design tokens' },
-    ],
-  },
-  {
-    title: 'Actions',
-    items: [{ href: '/docs/components/button', label: 'Button' }],
-  },
-  {
-    title: 'Surfaces',
-    items: [
-      { href: '/docs/components/card', label: 'Card' },
-      { href: '/docs/components/separator', label: 'Separator' },
-    ],
-  },
-  {
-    title: 'Forms',
-    items: [
-      { href: '/docs/components/input', label: 'Input' },
-      { href: '/docs/components/textarea', label: 'Textarea' },
-      { href: '/docs/components/label', label: 'Label' },
-      { href: '/docs/components/checkbox', label: 'Checkbox' },
-      { href: '/docs/components/switch', label: 'Switch' },
-      { href: '/docs/components/radio-group', label: 'RadioGroup' },
-    ],
-  },
-  {
-    title: 'Data Display',
-    items: [
-      { href: '/docs/components/avatar', label: 'Avatar' },
-      { href: '/docs/components/badge', label: 'Badge' },
-      { href: '/docs/components/heart-bar', label: 'HeartBar' },
-    ],
-  },
-  {
-    title: 'Feedback',
-    items: [
-      { href: '/docs/components/alert', label: 'Alert' },
-      { href: '/docs/components/progress', label: 'Progress' },
-      { href: '/docs/components/skeleton', label: 'Skeleton' },
-      { href: '/docs/components/tooltip', label: 'Tooltip' },
-    ],
-  },
-  {
-    title: 'Overlays',
-    items: [{ href: '/docs/components/dialog', label: 'Dialog' }],
-  },
-  {
-    title: 'Navigation',
-    items: [{ href: '/docs/components/tabs', label: 'Tabs' }],
-  },
-]
+import { sidebarGroups } from './nav-data'
 
 export function Sidebar() {
   const pathname = usePathname()
@@ -80,7 +12,7 @@ export function Sidebar() {
       aria-label="Documentation navigation"
       className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-y-auto pr-4"
     >
-      {groups.map((group) => (
+      {sidebarGroups.map((group) => (
         <div key={group.title} className="mb-6">
           <h3 className="mb-2 font-display text-[10px] uppercase tracking-widest text-po-fg-muted">
             {group.title}

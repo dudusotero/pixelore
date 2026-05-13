@@ -20,6 +20,7 @@ import {
   Progress,
   Switch,
 } from '@pixelore/react'
+import pixelorePkg from '@pixelore/react/package.json'
 
 export default function HomePage() {
   return (
@@ -36,23 +37,21 @@ export default function HomePage() {
 
 function Hero() {
   return (
-    <section className="po-hero-noise relative overflow-hidden border-b-2 border-po-border py-20 sm:py-28">
-      <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-4 text-center">
+    <section className="po-hero-noise relative overflow-hidden border-b-2 border-po-border py-14 sm:py-20 md:py-28">
+      <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-4 text-center sm:gap-8">
         <Badge variant="accent" className="text-[9px]">
-          v0.1.0 — Press Start
+          v{pixelorePkg.version} — Press Start
         </Badge>
-        <h1 className="font-display text-4xl uppercase leading-tight tracking-wider text-po-fg sm:text-6xl">
-          Build
-          <br />
-          <span className="text-po-primary">Browser Games</span>
-          <br />
-          Faster
+        <h1 className="font-display text-2xl uppercase leading-tight tracking-wider text-po-fg sm:text-4xl md:text-6xl [overflow-wrap:anywhere]">
+          <span className="block">Build</span>
+          <span className="block text-po-primary">Browser Games</span>
+          <span className="block">Faster</span>
         </h1>
-        <p className="max-w-xl font-body text-xl leading-snug text-po-fg-muted sm:text-2xl">
+        <p className="max-w-xl font-body text-base leading-snug text-po-fg-muted sm:text-xl md:text-2xl">
           The 8-bit React design system for HTML games. Drop-in HUDs, menus, dialog
           screens, and player feedback — fully accessible, motion-aware, and pixel-perfect.
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
           <Button asChild variant="primary" size="lg">
             <Link href="/docs">Get Started</Link>
           </Button>
@@ -69,7 +68,7 @@ function Hero() {
             <Link href="/docs/components/button">Browse Components</Link>
           </Button>
         </div>
-        <code className="border-2 border-po-border bg-po-bg-elevated px-3 py-1.5 font-mono text-base text-po-accent">
+        <code className="max-w-full border-2 border-po-border bg-po-bg-elevated px-3 py-1.5 font-mono text-sm text-po-accent sm:text-base [overflow-wrap:anywhere]">
           pnpm add @pixelore/react motion
         </code>
       </div>
@@ -79,13 +78,13 @@ function Hero() {
 
 function ForWho() {
   return (
-    <section className="border-b-2 border-po-border bg-po-bg-elevated/30 py-12">
+    <section className="border-b-2 border-po-border bg-po-bg-elevated/30 py-10 sm:py-12">
       <div className="mx-auto max-w-5xl px-4">
         <header className="mb-8 flex flex-col items-start gap-2">
           <span className="font-display text-[10px] uppercase tracking-widest text-po-primary">
             Built for
           </span>
-          <h2 className="font-display text-2xl uppercase tracking-wider text-po-fg">
+          <h2 className="font-display text-xl uppercase tracking-wider text-po-fg sm:text-2xl [overflow-wrap:anywhere]">
             React-powered browser games
           </h2>
         </header>
@@ -137,16 +136,16 @@ function UseCaseCard({
 
 function Showcase() {
   return (
-    <section className="border-b-2 border-po-border py-16">
+    <section className="border-b-2 border-po-border py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-4">
-        <header className="mb-10 flex flex-col items-start gap-2">
+        <header className="mb-8 flex flex-col items-start gap-2 sm:mb-10">
           <span className="font-display text-[10px] uppercase tracking-widest text-po-primary">
             Showcase
           </span>
-          <h2 className="font-display text-2xl uppercase tracking-wider text-po-fg">
+          <h2 className="font-display text-xl uppercase tracking-wider text-po-fg sm:text-2xl [overflow-wrap:anywhere]">
             Pick a component. Press a button.
           </h2>
-          <p className="max-w-2xl font-body text-lg text-po-fg-muted">
+          <p className="max-w-2xl font-body text-base text-po-fg-muted sm:text-lg">
             Everything below is rendered with the live library. Hover, focus, click —
             then check the source in the docs.
           </p>
@@ -267,20 +266,20 @@ function ShowcaseCard({ title, children }: { title: string; children: React.Reac
 
 function DemoCallout() {
   return (
-    <section className="border-b-2 border-po-border py-16">
+    <section className="border-b-2 border-po-border py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-4">
         <Card className="overflow-hidden">
           <CardHeader>
             <Badge variant="primary" size="sm" className="self-start">
               Live Demo
             </Badge>
-            <CardTitle className="mt-2 text-2xl">Pixelore Quest</CardTitle>
-            <CardDescription className="text-lg">
+            <CardTitle className="mt-2 text-xl sm:text-2xl">Pixelore Quest</CardTitle>
+            <CardDescription className="text-base sm:text-lg">
               A complete turn-based RPG, built entirely with the design system.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="font-body text-lg leading-snug text-po-fg-muted">
+            <p className="font-body text-base leading-snug text-po-fg-muted sm:text-lg [overflow-wrap:anywhere]">
               Map navigation, random encounters, animated battle screen, party stats,
               inventory, NPC merchants, save/load — orchestrating Dialog, Card, Badge,
               Button, HeartBar, Progress, Tabs, Tooltip, and Motion in one stateful app.
@@ -355,9 +354,9 @@ function Pillars() {
   ]
 
   return (
-    <section className="border-b-2 border-po-border py-16">
+    <section className="border-b-2 border-po-border py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="mb-10 font-display text-2xl uppercase tracking-wider text-po-fg">
+        <h2 className="mb-8 font-display text-xl uppercase tracking-wider text-po-fg sm:mb-10 sm:text-2xl [overflow-wrap:anywhere]">
           Four rules of the engine
         </h2>
         <div className="grid gap-6 sm:grid-cols-2">
@@ -367,7 +366,7 @@ function Pillars() {
                 <CardTitle>{p.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="font-body text-lg leading-snug text-po-fg-muted">{p.body}</p>
+                <p className="font-body text-base leading-snug text-po-fg-muted sm:text-lg">{p.body}</p>
               </CardContent>
             </Card>
           ))}
