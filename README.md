@@ -32,7 +32,8 @@ tool, or anything else where "flat shadcn dashboard" is the wrong look but
 you still want WCAG 2.2 AA, this is for you. There's a complete live RPG
 demo at **[pixelore-rpg.vercel.app](https://pixelore-rpg.vercel.app)** (source
 in [`apps/rpg-demo`](./apps/rpg-demo)) — battle screens, HUD, party stats,
-inventory, save/load, NPC merchants, all wired up.
+inventory, equipment, status effects, multi-phase boss, save/load, NPC
+merchants, and hand-authored pixel-art sprites, all wired up.
 
 - **18 components** including a signature **`HeartBar`** for HP / lives, plus the usual Button, Card, Input, Dialog, Tabs, Tooltip, Switch, Checkbox, RadioGroup, Progress, Alert, Avatar, Badge, Label, Separator, Skeleton, Textarea.
 - **Two distribution paths**: source CSS for any React app, or a Tailwind v3/v4 preset for projects that want to extend the tokens.

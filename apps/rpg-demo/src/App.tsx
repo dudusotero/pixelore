@@ -14,7 +14,16 @@ import { MapScreen } from './screens/MapScreen'
 import { BattleScreen } from './screens/BattleScreen'
 import { EndScreen } from './screens/EndScreen'
 import { InventoryScreen } from './screens/InventoryScreen'
+import { startBattleHero } from './game/battle'
 import { createHero, HERO_START } from './game/data'
+import {
+  deriveStats,
+  EQUIPMENT,
+  equipPiece,
+  unequipPiece,
+  type EquipmentId,
+  type EquipmentSlot,
+} from './game/equipment'
 import {
   addItem,
   applyItem,
@@ -134,7 +143,7 @@ export function App() {
   }, [pendingNewGame, beginNewGame])
 
   const startEncounter = useCallback((enemy: Enemy) => {
-    setState((s) => ({ ...s, encounteredEnemy: enemy }))
+    setState((s) => ({ ...s, hero: startBattleHero(s.hero), encounteredEnemy: enemy }))
     setScreen('battle')
   }, [])
 
@@ -173,7 +182,11 @@ export function App() {
       const slot = s.inventory.find((x) => x.itemId === itemId)
       if (!slot || slot.quantity <= 0) return s
       const item = ITEMS[itemId]
-      const applied = applyItem(s.hero, item)
+      const derived = deriveStats(s.hero)
+      const applied = applyItem(s.hero, item, {
+        maxHp: derived.maxHp,
+        maxMp: derived.maxMp,
+      })
       return {
         ...s,
         hero: applied.hero,
@@ -194,18 +207,61 @@ export function App() {
     })
   }, [])
 
+  const buyEquipment = useCallback((id: EquipmentId) => {
+    setState((s) => {
+      const piece = EQUIPMENT[id]
+      if (s.hero.gold < piece.price) return s
+      if (s.hero.ownedEquipment.includes(id)) return s
+      return {
+        ...s,
+        hero: {
+          ...s.hero,
+          gold: s.hero.gold - piece.price,
+          ownedEquipment: [...s.hero.ownedEquipment, id],
+        },
+      }
+    })
+  }, [])
+
+  const equipItem = useCallback((id: EquipmentId) => {
+    setState((s) => {
+      if (!s.hero.ownedEquipment.includes(id)) return s
+      const { loadout } = equipPiece(s.hero.equipped, id)
+      return { ...s, hero: { ...s.hero, equipped: loadout } }
+    })
+  }, [])
+
+  const unequipSlot = useCallback((slot: EquipmentSlot) => {
+    setState((s) => {
+      const { loadout } = unequipPiece(s.hero.equipped, slot)
+      const derived = deriveStats({ ...s.hero, equipped: loadout })
+      // Clamp current HP/MP to the new caps so unequipping doesn't leave the
+      // hero "overfilled" on display.
+      return {
+        ...s,
+        hero: {
+          ...s.hero,
+          equipped: loadout,
+          hp: Math.min(s.hero.hp, derived.maxHp),
+          mp: Math.min(s.hero.mp, derived.maxMp),
+        },
+      }
+    })
+  }, [])
+
   const healFromNpc = useCallback(() => {
     setState((s) => {
       if (s.hero.gold < HEAL_COST) return s
-      const atFull = s.hero.hp === s.hero.maxHp && s.hero.mp === s.hero.maxMp
+      const derived = deriveStats(s.hero)
+      const atFull = s.hero.hp === derived.maxHp && s.hero.mp === derived.maxMp
       if (atFull) return s
       return {
         ...s,
         hero: {
           ...s.hero,
           gold: s.hero.gold - HEAL_COST,
-          hp: s.hero.maxHp,
-          mp: s.hero.maxMp,
+          hp: derived.maxHp,
+          mp: derived.maxMp,
         },
       }
     })
@@ -251,6 +307,8 @@ export function App() {
             hero={state.hero}
             inventory={state.inventory}
             onUse={useItemFromInventory}
+            onEquip={equipItem}
+            onUnequip={unequipSlot}
             onBack={() => setScreen(previousScreen)}
           />
         )}
@@ -269,6 +327,7 @@ export function App() {
           hero={state.hero}
           onClose={() => setActiveNpc(null)}
           onBuy={buyItem}
+          onBuyEquipment={buyEquipment}
           onHeal={healFromNpc}
         />
 

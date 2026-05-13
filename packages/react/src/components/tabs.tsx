@@ -8,11 +8,15 @@ export const TabsList = forwardRef<
   ElementRef<typeof TabsPrimitive.List>,
   ComponentPropsWithoutRef<typeof TabsPrimitive.List>
 >(function TabsList({ className, ...props }, ref) {
+  // Dividers are rendered as 2px gaps with the parent's black background
+  // showing through. This avoids the sub-pixel rendering artifact we used
+  // to get with per-trigger `border-r-2`, where inline-flex could assign a
+  // child a fractional width and the right-border would paint blurry.
   return (
     <TabsPrimitive.List
       ref={ref}
       className={cn(
-        'inline-flex items-stretch gap-0 border-2 border-black bg-po-bg-elevated p-0',
+        'inline-flex items-stretch gap-[2px] border-2 border-black bg-black p-0',
         'rounded-none',
         className,
       )}
@@ -30,12 +34,11 @@ export const TabsTrigger = forwardRef<
       ref={ref}
       className={cn(
         'inline-flex items-center justify-center whitespace-nowrap',
-        'border-r-2 border-black last:border-r-0',
-        'px-4 py-2 font-display text-[10px] uppercase tracking-wider',
+        'bg-po-bg-elevated px-4 py-2 font-display text-[10px] uppercase tracking-wider',
         'text-po-fg-muted transition-colors',
         'hover:bg-po-surface hover:text-po-fg',
         'data-[state=active]:bg-po-primary data-[state=active]:text-po-primary-fg',
-        'focus-visible:outline-2 focus-visible:outline-po-accent focus-visible:outline-offset-2',
+        'focus-visible:outline-2 focus-visible:outline-po-accent focus-visible:-outline-offset-2',
         'disabled:pointer-events-none disabled:opacity-50',
         'rounded-none',
         className,

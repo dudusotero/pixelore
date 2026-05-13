@@ -1,4 +1,4 @@
-import type { Enemy, Hero, HeroClass } from './types'
+import type { BossState, Enemy, Hero, HeroClass } from './types'
 
 export const MAP_SIZE = 10
 export const BOSS_POS = { x: 0, y: 0 }
@@ -8,7 +8,6 @@ export const ENCOUNTER_RATE = 0.22
 export interface ClassProfile {
   id: HeroClass
   name: string
-  sprite: string
   blurb: string
   hp: number
   mp: number
@@ -23,7 +22,6 @@ export const CLASSES: Record<HeroClass, ClassProfile> = {
   warrior: {
     id: 'warrior',
     name: 'Warrior',
-    sprite: '🛡',
     blurb: 'High HP and ATK. The default party tank.',
     hp: 55,
     mp: 8,
@@ -35,7 +33,6 @@ export const CLASSES: Record<HeroClass, ClassProfile> = {
   mage: {
     id: 'mage',
     name: 'Mage',
-    sprite: '🔮',
     blurb: 'Frail body, generous MP. Fireball hits for more.',
     hp: 40,
     mp: 18,
@@ -47,7 +44,6 @@ export const CLASSES: Record<HeroClass, ClassProfile> = {
   rogue: {
     id: 'rogue',
     name: 'Rogue',
-    sprite: '🗡',
     blurb: 'Fast and lucky. Higher crit chance, easier escapes.',
     hp: 45,
     mp: 10,
@@ -63,7 +59,6 @@ export function createHero(name = 'Eddy', heroClass: HeroClass = 'warrior'): Her
   return {
     id: 'hero',
     name,
-    sprite: profile.sprite,
     level: 1,
     hp: profile.hp,
     maxHp: profile.hp,
@@ -79,13 +74,15 @@ export function createHero(name = 'Eddy', heroClass: HeroClass = 'warrior'): Her
     gold: 30, // small starting purse so the merchant isn't unreachable
     heroClass,
     defending: false,
+    statuses: [],
+    equipped: {},
+    ownedEquipment: [],
   }
 }
 
 export interface EnemyTemplate {
   id: string
   name: string
-  sprite: string
   hp: number
   mp: number
   atk: number
@@ -94,13 +91,16 @@ export interface EnemyTemplate {
   xpReward: number
   goldReward: number
   isBoss?: boolean
+  /** Probability (0-1) that a basic attack from this enemy inflicts poison. */
+  poisonChance?: number
+  /** Probability (0-1) that a basic attack from this enemy stuns the target. */
+  stunChance?: number
 }
 
 const TEMPLATES: EnemyTemplate[] = [
   {
     id: 'slime',
     name: 'Goo Slime',
-    sprite: '🟢',
     hp: 18,
     mp: 0,
     atk: 5,
@@ -112,7 +112,6 @@ const TEMPLATES: EnemyTemplate[] = [
   {
     id: 'bat',
     name: 'Pixel Bat',
-    sprite: '🦇',
     hp: 14,
     mp: 0,
     atk: 6,
@@ -124,7 +123,6 @@ const TEMPLATES: EnemyTemplate[] = [
   {
     id: 'goblin',
     name: 'Goblin Thief',
-    sprite: '👺',
     hp: 28,
     mp: 0,
     atk: 8,
@@ -132,11 +130,11 @@ const TEMPLATES: EnemyTemplate[] = [
     spd: 5,
     xpReward: 20,
     goldReward: 12,
+    poisonChance: 0.25,
   },
   {
     id: 'skeleton',
     name: 'Bone Knight',
-    sprite: '💀',
     hp: 40,
     mp: 0,
     atk: 10,
@@ -144,11 +142,11 @@ const TEMPLATES: EnemyTemplate[] = [
     spd: 4,
     xpReward: 30,
     goldReward: 20,
+    stunChance: 0.15,
   },
   {
     id: 'dragon',
     name: 'Pixel Dragon',
-    sprite: '🐉',
     hp: 110,
     mp: 0,
     atk: 18,
@@ -167,10 +165,12 @@ export function findEnemyTemplate(id: string): EnemyTemplate {
 }
 
 export function instantiateEnemy(template: EnemyTemplate): Enemy {
+  const bossState: BossState | undefined = template.isBoss
+    ? { phase: 1, telegraph: null }
+    : undefined
   return {
     id: template.id,
     name: template.name,
-    sprite: template.sprite,
     level: template.isBoss ? 5 : 1,
     hp: template.hp,
     maxHp: template.hp,
@@ -182,7 +182,11 @@ export function instantiateEnemy(template: EnemyTemplate): Enemy {
     xpReward: template.xpReward,
     goldReward: template.goldReward,
     isBoss: template.isBoss,
+    poisonChance: template.poisonChance,
+    stunChance: template.stunChance,
+    bossState,
     defending: false,
+    statuses: [],
   }
 }
 

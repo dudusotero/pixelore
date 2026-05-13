@@ -1,11 +1,11 @@
 import type { GameState } from '../App'
 import type { Settings } from './settings'
 
-const STORAGE_KEY = 'pixelore-quest:save:v1'
+const STORAGE_KEY = 'pixelore-quest:save:v2'
 const SETTINGS_KEY = 'pixelore-quest:settings:v1'
 
 interface SavePayload {
-  version: 1
+  version: 2
   state: GameState
 }
 
@@ -20,7 +20,7 @@ export function loadSave(): GameState | null {
     const raw = window.localStorage.getItem(STORAGE_KEY)
     if (!raw) return null
     const parsed = JSON.parse(raw) as SavePayload
-    if (parsed.version !== 1) return null
+    if (parsed.version !== 2) return null
     return parsed.state
   } catch {
     return null
@@ -30,7 +30,7 @@ export function loadSave(): GameState | null {
 export function writeSave(state: GameState): void {
   if (typeof window === 'undefined') return
   try {
-    const payload: SavePayload = { version: 1, state }
+    const payload: SavePayload = { version: 2, state }
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))
   } catch {
     // Quota exceeded / private mode — silently ignore. The player keeps

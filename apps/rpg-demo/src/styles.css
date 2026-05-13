@@ -16,17 +16,49 @@ body {
   background-color: var(--po-color-bg);
 }
 
-/* Desktop (lg+): lock to viewport — the whole game fits in one screen, the
-   sticky directional pad gives way to an in-sidebar Move card, and a fixed
-   viewport keeps the retro arcade feel. */
-@media (min-width: 1024px) {
-  html,
-  body,
-  #root {
-    height: 100%;
-  }
+/* The page always scrolls — desktop included. Earlier this file pinned the
+   body to the viewport at lg+ for a retro arcade feel, but it clipped
+   sidebar content (Hero panel + Lives + XP + Move) when the column grew
+   taller than the viewport. min-h-screen on the App root still fills a
+   full viewport when content is short. */
 
-  body {
-    overflow: hidden;
+/* Pixel-art sprite rendering — see apps/rpg-demo/SPRITES.md and
+   src/sprites/Sprite.tsx. Every sprite is nearest-neighbour scaled so the
+   pixels stay crisp at any integer multiple. */
+.sprite-img,
+.sprite-frame {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* 2-frame idle loop: the source PNG is a horizontal strip with frame 0 on
+   the left and frame 1 on the right. We render the strip as a background
+   image sized 200%×100% of the container, then animate `background-position`
+   between 0% and 100% — that swaps which frame the container shows.
+
+   Note the `jump-none` term: the default `steps(2)` is `jump-end`, which
+   produces the values 0% and 50% — and 50% shows half of frame 0 spliced
+   against half of frame 1. `jump-none` outputs 0% and 100% (both endpoints
+   reached), which is what a 2-frame flip-book actually wants. */
+.sprite-frame {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+}
+.sprite-idle {
+  animation: sprite-idle 1.2s steps(2, jump-none) infinite;
+}
+@keyframes sprite-idle {
+  to { background-position: 100% 0%; }
+}
+
+/* Honour the user's motion preference — pause the idle loop. */
+@media (prefers-reduced-motion: reduce) {
+  .sprite-idle {
+    animation: none;
   }
 }

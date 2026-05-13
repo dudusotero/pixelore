@@ -48,27 +48,31 @@ export const DialogContent = forwardRef<
         asChild
         className={cn(
           'fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2',
-          'border-2 border-black bg-po-surface p-6 text-po-fg',
+          // Cap height to the viewport; inner body scrolls.
+          'flex max-h-[calc(100vh-2rem)] flex-col',
+          'border-2 border-black bg-po-surface text-po-fg',
           'rounded-none shadow-[var(--po-shadow-pixel-lg)]',
           className,
         )}
         {...props}
       >
         <motion.div
+          // No layout classes here — they collide with the parent's fixed
+          // positioning when Radix forwards via asChild.
           initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.92 }}
           animate={reduced ? { opacity: 1 } : { opacity: 1, scale: 1 }}
           exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.92 }}
           transition={{ duration: reduced ? 0.05 : 0.14, ease: [0.32, 0.72, 0, 1] }}
         >
-          {children}
           {showCloseButton && (
             <DialogPrimitive.Close
-              className="absolute right-3 top-3 inline-flex h-7 w-7 items-center justify-center border-2 border-black bg-po-danger text-po-danger-fg font-display text-xs hover:brightness-110 focus-visible:outline-2 focus-visible:outline-po-accent focus-visible:outline-offset-2"
+              className="absolute right-3 top-3 z-10 inline-flex h-7 w-7 items-center justify-center border-2 border-black bg-po-danger text-po-danger-fg font-display text-xs hover:brightness-110 focus-visible:outline-2 focus-visible:outline-po-accent focus-visible:outline-offset-2"
               aria-label="Close"
             >
               <span aria-hidden="true">X</span>
             </DialogPrimitive.Close>
           )}
+          <div className="min-h-0 flex-1 overflow-y-auto p-6">{children}</div>
         </motion.div>
       </DialogPrimitive.Content>
     </DialogPortal>

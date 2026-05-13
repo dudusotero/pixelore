@@ -19,6 +19,7 @@ import {
 import { countItem, type Inventory } from '../game/items'
 import { findNpcAt, NPCS, type NpcDef } from '../game/npcs'
 import type { Settings } from '../game/settings'
+import { Sprite } from '../sprites'
 import type { Enemy, Hero, MapPosition } from '../game/types'
 import { HeroStatPanel } from '../components/HeroStatPanel'
 import { SettingsDialog } from '../components/SettingsDialog'
@@ -135,7 +136,21 @@ export function MapScreen({
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Button variant="secondary" size="sm" onClick={onOpenInventory}>
-            Inventory{potionCount > 0 ? ` · ${potionCount} 🧪` : ''}
+            <span className="inline-flex items-center gap-1.5">
+              Inventory
+              {potionCount > 0 && (
+                <>
+                  <span>·</span>
+                  <span>{potionCount}</span>
+                  <Sprite
+                    kind="item"
+                    id="potion"
+                    size={16}
+                    label="Potion count"
+                  />
+                </>
+              )}
+            </span>
           </Button>
           <SettingsDialog
             settings={settings}
@@ -158,7 +173,11 @@ export function MapScreen({
             <CardTitle>{defeatedBoss ? 'Realm Saved' : 'Hunt the Dragon'}</CardTitle>
           </CardHeader>
           <CardContent>
-            <MapGrid position={position} defeatedBoss={defeatedBoss} />
+            <MapGrid
+              position={position}
+              defeatedBoss={defeatedBoss}
+              heroClass={hero.heroClass}
+            />
             <p className="mt-4 font-body text-base text-po-fg-muted">
               {defeatedBoss
                 ? 'The dragon is slain. Roam the realm in peace.'
@@ -218,9 +237,11 @@ export function MapScreen({
 function MapGrid({
   position,
   defeatedBoss,
+  heroClass,
 }: {
   position: MapPosition
   defeatedBoss: boolean
+  heroClass: Hero['heroClass']
 }) {
   return (
     <div
@@ -252,26 +273,28 @@ function MapGrid({
             }
           >
             {isHero ? (
-              <span
-                aria-label="Your position"
-                className="z-10 text-base drop-shadow sm:text-xl md:text-2xl lg:text-3xl"
-              >
-                🛡
+              <span className="z-10 flex items-center justify-center">
+                <Sprite
+                  kind="token"
+                  id={`hero-${heroClass}`}
+                  size={28}
+                  label="Your position"
+                />
               </span>
             ) : isBoss ? (
-              <span
-                aria-label="Boss"
-                className="text-base sm:text-xl md:text-2xl lg:text-3xl"
-              >
-                🐉
-              </span>
+              <Sprite
+                kind="token"
+                id="boss-dragon"
+                size={28}
+                label="Pixel Dragon"
+              />
             ) : npcHere ? (
-              <span
-                aria-label={npcHere.name}
-                className="text-sm sm:text-base md:text-xl lg:text-2xl"
-              >
-                {npcHere.sprite}
-              </span>
+              <Sprite
+                kind="token"
+                id={npcHere.id}
+                size={24}
+                label={npcHere.name}
+              />
             ) : null}
           </div>
         )

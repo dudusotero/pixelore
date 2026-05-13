@@ -13,6 +13,7 @@ import {
   Separator,
 } from '@pixelore/react'
 import { CLASSES } from '../game/data'
+import { Sprite } from '../sprites'
 import type { HeroClass } from '../game/types'
 
 interface TitleScreenProps {
@@ -90,9 +91,13 @@ export function TitleScreen({ onStart, hasSave = false, onContinue }: TitleScree
                             {profile.name}
                           </span>
                         </div>
-                        <span className="text-xl" aria-hidden="true">
-                          {profile.sprite}
-                        </span>
+                        <Sprite
+                          kind="hero"
+                          id={id}
+                          size={48}
+                          animated
+                          label={profile.name}
+                        />
                       </div>
                       <p className="mb-2 font-body text-base leading-snug text-po-fg-muted">
                         {profile.blurb}

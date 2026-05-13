@@ -1,7 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react'
 import {
-  Avatar,
-  AvatarFallback,
   Badge,
   Card,
   CardContent,
@@ -10,8 +8,11 @@ import {
   useReducedMotion,
 } from '@pixelore/react'
 import type { DamageFlash } from '../game/battle'
+import { deriveStats } from '../game/equipment'
+import { Sprite } from '../sprites'
 import type { Hero } from '../game/types'
 import { DamageNumbers } from './DamageNumber'
+import { StatusChips } from './StatusChips'
 
 interface HeroStatPanelProps {
   hero: Hero
@@ -26,53 +27,67 @@ export function HeroStatPanel({
   damageEvents = [],
 }: HeroStatPanelProps) {
   const reduced = useReducedMotion()
+  const derived = deriveStats(hero)
   const lastHeroEvent = [...damageEvents].reverse().find((e) => e.target === 'hero')
   const tookDamage =
     lastHeroEvent &&
     (lastHeroEvent.kind === 'damage' || lastHeroEvent.kind === 'crit')
 
   return (
-    <Card className="relative overflow-hidden">
-      {/* Red border flash when the hero takes damage. */}
-      <AnimatePresence>
-        {tookDamage && (
-          <motion.div
-            key={lastHeroEvent.id}
-            initial={{ opacity: reduced ? 0.25 : 0.6 }}
-            animate={{ opacity: 0 }}
-            transition={{ duration: reduced ? 0.15 : 0.5 }}
-            className="pointer-events-none absolute inset-0 z-10 border-4 border-po-danger"
-            aria-hidden="true"
-          />
-        )}
-      </AnimatePresence>
-
-      <CardHeader>
-        <div className="flex items-center gap-3">
-          <Avatar>
-            <AvatarFallback aria-hidden="true">{hero.sprite}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col gap-0.5">
-            <CardTitle>{hero.name}</CardTitle>
-            <Badge variant="neutral">Lv {hero.level}</Badge>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="relative flex flex-col gap-3">
-          <DamageNumbers events={damageEvents} target="hero" />
-          <StatBar label="HP" value={hero.hp} max={hero.maxHp} color="bg-po-danger" />
-          <StatBar label="MP" value={hero.mp} max={hero.maxMp} color="bg-po-secondary" />
-          {!compact && (
-            <dl className="mt-2 grid grid-cols-3 gap-2 font-body text-base text-po-fg-muted">
-              <Stat label="ATK" value={hero.atk} />
-              <Stat label="DEF" value={hero.def} />
-              <Stat label="SPD" value={hero.spd} />
-            </dl>
+    // Wrapper is the positioning context for floating damage numbers — they
+    // sit as a sibling of the Card so they can drift above its top edge
+    // without being clipped by the Card's `overflow-hidden`.
+    <div className="relative">
+      <Card className="relative overflow-hidden">
+        {/* Red border flash when the hero takes damage. */}
+        <AnimatePresence>
+          {tookDamage && (
+            <motion.div
+              key={lastHeroEvent.id}
+              initial={{ opacity: reduced ? 0.25 : 0.6 }}
+              animate={{ opacity: 0 }}
+              transition={{ duration: reduced ? 0.15 : 0.5 }}
+              className="pointer-events-none absolute inset-0 z-10 border-4 border-po-danger"
+              aria-hidden="true"
+            />
           )}
-        </div>
-      </CardContent>
-    </Card>
+        </AnimatePresence>
+
+        <CardHeader>
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center border-2 border-po-border bg-po-bg-elevated">
+              <Sprite
+                kind="hero"
+                id={hero.heroClass}
+                size={48}
+                animated
+                label={hero.name}
+              />
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <CardTitle>{hero.name}</CardTitle>
+              <Badge variant="neutral">Lv {hero.level}</Badge>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col gap-3">
+            <StatBar label="HP" value={hero.hp} max={derived.maxHp} color="bg-po-danger" />
+            <StatBar label="MP" value={hero.mp} max={derived.maxMp} color="bg-po-secondary" />
+            <StatusChips statuses={hero.statuses} />
+            {!compact && (
+              <dl className="mt-2 grid grid-cols-3 gap-2 font-body text-base text-po-fg-muted">
+                <Stat label="ATK" value={derived.atk} />
+                <Stat label="DEF" value={derived.def} />
+                <Stat label="SPD" value={derived.spd} />
+              </dl>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      <DamageNumbers events={damageEvents} target="hero" />
+    </div>
   )
 }
 

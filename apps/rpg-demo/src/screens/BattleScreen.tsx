@@ -11,8 +11,10 @@ import {
 } from '@pixelore/react'
 import { resolveTurn, type DamageFlash } from '../game/battle'
 import { SKILLS } from '../game/data'
+import { deriveStats } from '../game/equipment'
 import { ITEMS, type Inventory, type ItemId } from '../game/items'
 import type { Settings } from '../game/settings'
+import { Sprite } from '../sprites'
 import type { BattleAction, BattleEvent, Enemy, Hero } from '../game/types'
 import { EnemyPanel } from '../components/EnemyPanel'
 import { BattleLog } from '../components/BattleLog'
@@ -167,6 +169,7 @@ function ActionMenu({
   onAction: (a: BattleAction) => void
 }) {
   if (menu === 'magic') {
+    const derivedMaxHp = deriveStats(hero).maxHp
     return (
       <Card>
         <CardHeader>
@@ -185,7 +188,7 @@ function ActionMenu({
             <Button
               variant="success"
               block
-              disabled={busy || hero.mp < SKILLS.heal.mpCost || hero.hp >= hero.maxHp}
+              disabled={busy || hero.mp < SKILLS.heal.mpCost || hero.hp >= derivedMaxHp}
               onClick={() => onAction({ kind: 'magic', skillId: 'heal' })}
             >
               Heal · {SKILLS.heal.mpCost} MP
@@ -221,7 +224,15 @@ function ActionMenu({
                   disabled={busy}
                   onClick={() => onAction({ kind: 'item', itemId: slot.itemId as ItemId })}
                 >
-                  {item.sprite} {item.name} · ×{slot.quantity}
+                  <span className="inline-flex items-center gap-2">
+                    <Sprite
+                      kind="item"
+                      id={slot.itemId}
+                      size={20}
+                      label={item.name}
+                    />
+                    {item.name} · ×{slot.quantity}
+                  </span>
                 </Button>
               )
             })}
