@@ -240,8 +240,18 @@ function ActionMenu({
         <CardTitle>Actions</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-3 gap-2">
-          <Button variant="primary" block disabled={busy} onClick={() => onAction({ kind: 'attack' })}>
+        {/* Mobile has room for three side-by-side primary verbs; the lg
+            sidebar is 320px so Press Start 2P labels run flush to the
+            button border. On lg we let Attack span two columns so the
+            most-used action is always the most legible. */}
+        <div className="grid grid-cols-3 gap-2 lg:grid-cols-2">
+          <Button
+            variant="primary"
+            block
+            disabled={busy}
+            onClick={() => onAction({ kind: 'attack' })}
+            className="lg:col-span-2"
+          >
             Attack
           </Button>
           <Button variant="secondary" block disabled={busy} onClick={() => onMenu('magic')}>

@@ -252,15 +252,24 @@ function MapGrid({
             }
           >
             {isHero ? (
-              <span aria-label="Your position" className="z-10 text-3xl drop-shadow">
+              <span
+                aria-label="Your position"
+                className="z-10 text-base drop-shadow sm:text-xl md:text-2xl lg:text-3xl"
+              >
                 🛡
               </span>
             ) : isBoss ? (
-              <span aria-label="Boss" className="text-3xl">
+              <span
+                aria-label="Boss"
+                className="text-base sm:text-xl md:text-2xl lg:text-3xl"
+              >
                 🐉
               </span>
             ) : npcHere ? (
-              <span aria-label={npcHere.name} className="text-2xl">
+              <span
+                aria-label={npcHere.name}
+                className="text-sm sm:text-base md:text-xl lg:text-2xl"
+              >
                 {npcHere.sprite}
               </span>
             ) : null}
