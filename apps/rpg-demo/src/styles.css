@@ -3,14 +3,30 @@
 
 @source "../../../packages/react/src/**/*.{ts,tsx}";
 
+/* Mobile-first: let the body grow with content so the page can scroll.
+   App.tsx wraps everything in min-h-screen, which still fills the viewport
+   when content is short. */
 html,
 body,
 #root {
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
   background-color: var(--po-color-bg);
-  /* lock scroll — the game is a fixed viewport experience */
-  overflow: hidden;
+}
+
+/* Desktop (lg+): lock to viewport — the whole game fits in one screen, the
+   sticky directional pad gives way to an in-sidebar Move card, and a fixed
+   viewport keeps the retro arcade feel. */
+@media (min-width: 1024px) {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    overflow: hidden;
+  }
 }
