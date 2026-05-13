@@ -30,6 +30,14 @@ export function Header() {
             Components
           </Link>
           <a
+            href="https://pixelore-rpg.vercel.app"
+            target="_blank"
+            rel="noreferrer"
+            className="font-display text-[10px] uppercase tracking-wider text-po-accent hover:text-po-primary focus-visible:outline-2 focus-visible:outline-po-accent focus-visible:outline-offset-2"
+          >
+            Play Demo
+          </a>
+          <a
             href="https://github.com/dudusotero/pixelore"
             target="_blank"
             rel="noreferrer"

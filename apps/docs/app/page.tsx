@@ -56,6 +56,15 @@ function Hero() {
           <Button asChild variant="primary" size="lg">
             <Link href="/docs">Get Started</Link>
           </Button>
+          <Button asChild variant="accent" size="lg">
+            <a
+              href="https://pixelore-rpg.vercel.app"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Play the Demo
+            </a>
+          </Button>
           <Button asChild variant="ghost" size="lg">
             <Link href="/docs/components/button">Browse Components</Link>
           </Button>
@@ -273,10 +282,19 @@ function DemoCallout() {
           <CardContent>
             <p className="font-body text-lg leading-snug text-po-fg-muted">
               Map navigation, random encounters, animated battle screen, party stats,
-              level-up curves — orchestrating Dialog, Card, Badge, Button, HeartBar,
-              Progress, and Motion in one stateful application. Source lives at{' '}
-              <code className="font-mono text-po-accent">apps/rpg-demo</code> in the
-              repo; clone it as a starting point for your own browser game.
+              inventory, NPC merchants, save/load — orchestrating Dialog, Card, Badge,
+              Button, HeartBar, Progress, Tabs, Tooltip, and Motion in one stateful app.
+              Play it at{' '}
+              <a
+                href="https://pixelore-rpg.vercel.app"
+                target="_blank"
+                rel="noreferrer"
+                className="font-mono text-po-accent underline underline-offset-2"
+              >
+                pixelore-rpg.vercel.app
+              </a>{' '}
+              or clone <code className="font-mono text-po-accent">apps/rpg-demo</code>{' '}
+              from the repo as a starting point for your own browser game.
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-2">
               <HeartBar value={3} max={3} />
@@ -289,6 +307,15 @@ function DemoCallout() {
           </CardContent>
           <CardFooter>
             <Button asChild variant="primary">
+              <a
+                href="https://pixelore-rpg.vercel.app"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Play the Demo
+              </a>
+            </Button>
+            <Button asChild variant="ghost">
               <a
                 href="https://github.com/dudusotero/pixelore/tree/main/apps/rpg-demo"
                 target="_blank"
